@@ -52,6 +52,14 @@ RSpec.describe User, type: :model do
   		expect(duplicate_user.valid?).to eq(false)
   	end
 
+  	it "email addresses should be saved as lower-case" do
+  		mixed_case_email = "Foo@ExaMple.CoM"
+  		user.email = mixed_case_email
+  		user.save
+  		expect(user.email).to eq(mixed_case_email.downcase)
+  	end
+
+
   	it "password should be present (nonblank)" do
   		user.password = user.password_confirmation = " " * 6
   		expect(user.valid?).to eq(false)
