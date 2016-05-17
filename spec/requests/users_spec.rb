@@ -1,5 +1,11 @@
 require 'rails_helper'
 
+=begin
+def is_logged_in?
+  !session[:user_id].nil?
+end
+=end
+
 RSpec.describe "New", type: :request do
 
   describe "GET /signup" do
@@ -55,7 +61,13 @@ RSpec.describe "New", type: :request do
     it "should flash success if successfully created new user" do
       post users_path, user: { name: "Donald Duck", email: "donald.duck@gmail.com", password: "coincoin", password_confirmation: "coincoin" }
       follow_redirect!
-      expect(response.body).to include(flash[:success])
+      #expect(response.body).to include(flash[:success])
+      assert flash[:success]
+    end
+
+    it "should login newly created user" do
+      post users_path, user: { name: "Donald Duck", email: "donald.duck@gmail.com", password: "coincoin", password_confirmation: "coincoin" }
+      assert is_logged_in?
     end
 
   end
