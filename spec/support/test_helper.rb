@@ -19,3 +19,4 @@ end
 def request_test?
 	defined?(post)
 end
+
