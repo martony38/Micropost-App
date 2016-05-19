@@ -17,6 +17,6 @@ end
 
 # Returns true inside an integration(request) test.
 def request_test?
-	defined?(post)
+	defined?(post_via_redirect)
 end
 
