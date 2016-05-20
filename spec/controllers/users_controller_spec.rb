@@ -77,21 +77,35 @@ RSpec.describe UsersController, type: :controller do
 
   	end
 
-  	context "when logged in as wrong user" do
+    context "when logged in" do
 
-  		it "does not flashes anything" do
-  			log_in_as(wrong_user)
-  			patch :update, id: user, user: { name: "Updated Name" }
-  			expect(flash.empty?).to eq(true)
-  		end
+      it "does not allow the admin attribute to be edited via the web" do
+        log_in_as(user = create(:random_user))
+        expect(user.admin?).to eq(false)
+        patch :update, id: user, user: { admin: true }
+        user.reload
+        expect(user.admin?).to eq(false)
+      end
 
-  		it "redirects to root" do
-  			log_in_as(wrong_user)
-  			patch :update, id: user, user: { name: "Updated Name" }
-  			expect(response).to redirect_to(root_path)
-  		end
+      context "as wrong user" do
 
-  	end
+        it "does not flashes anything" do
+          log_in_as(wrong_user)
+          patch :update, id: user, user: { name: "Updated Name" }
+          expect(flash.empty?).to eq(true)
+        end
+
+        it "redirects to root" do
+          log_in_as(wrong_user)
+          patch :update, id: user, user: { name: "Updated Name" }
+          expect(response).to redirect_to(root_path)
+        end
+
+      end
+
+    end
+
+
 
   end
 
