@@ -7,6 +7,8 @@ FactoryGirl.define do
 		password "squick"
 		password_confirmation "squick"
 		admin true
+		activated true
+		activated_at Time.zone.now
 	end
 
 	factory :donald, class: User do
@@ -16,11 +18,23 @@ FactoryGirl.define do
 		password "coincoin"
 		password_confirmation "coincoin"
 		admin true
+		activated true
+		activated_at Time.zone.now
 	end
 
 	factory :random_user, class: User do
 		sequence(:name) { |n| "Random User#{n}" }
 		sequence(:email) { |n| "random.user#{n}@example.com" }
+		email_confirmation { "#{email}" }
+		sequence(:password) { |n| "password#{n}" }
+		password_confirmation { "#{password}" }
+		activated true
+		activated_at Time.zone.now
+	end
+
+	factory :unactivated_user, class: User do
+		name "Unactivated User"
+		email "unactivated@user.com"
 		email_confirmation { "#{email}" }
 		sequence(:password) { |n| "password#{n}" }
 		password_confirmation { "#{password}" }

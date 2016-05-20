@@ -31,6 +31,16 @@ Rails.application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
 
+
+#=begin
+  # change config to test mailer in development
+  #config.action_mailer.raise_delivery_errors = true
+  #config.action_mailer.delivery_method = :test
+  host = 'localhost:3000'
+  config.action_mailer.default_url_options = { host: host }
+#=end
+
+
   # Randomize the order test cases are executed.
   config.active_support.test_order = :random
 

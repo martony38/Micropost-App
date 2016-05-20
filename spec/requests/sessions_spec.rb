@@ -65,6 +65,16 @@ RSpec.describe "New", type: :request do
       expect(cookies["remember_token"]).to eq(nil)
     end
 
+    context "when user not activated" do
+
+      it "should not log in user" do
+        user = create(:unactivated_user)
+        post login_path, session: { email: user.email, password: user.password }
+        expect(is_logged_in?).to eq(false)
+      end
+
+    end
+
   end
 
   describe "DELETE /logout" do

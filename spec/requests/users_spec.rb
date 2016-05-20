@@ -146,44 +146,34 @@ RSpec.describe "New", type: :request do
       it "reports error messages" do
         post users_path, user: invalid_attributes
         expect(response.body).to include("Name can&#39;t be blank" && "Email is invalid" && "Email confirmation doesn&#39;t match Email" && "Password confirmation doesn&#39;t match Password" && "Password is too short (minimum is 6 characters)")
-=begin
-        assigns(:user).errors.full_messages.each do |msg|
-          expect(response.body).to include(msg)
-        end
-=end
+      end
+
+      it "does not send an activation email" do
+        expect{ post users_path, user: invalid_attributes }.to_not change{ActionMailer::Base.deliveries.size}
       end
 
     end
 
     context "with valid info" do
 
-      let(:valid_attributes) { attributes_for :donald }
+      let(:valid_attributes) { attributes_for :unactivated_user }
 
       it "creates a new user" do
         expect{ post users_path, user: valid_attributes }.to change{User.count}.by(1)
       end
 
-      it "redirects to newly created user show page" do
-        post users_path, user: valid_attributes
-        expect(response).to redirect_to(assigns(:user))
+      it "sends an activation email" do
+        expect{ post users_path, user: valid_attributes }.to change{ActionMailer::Base.deliveries.size}.by(1)
       end
 
-      it "displays /users/show" do
+      it "does not activate user" do
         post users_path, user: valid_attributes
-        follow_redirect!
-        expect(response).to render_template(:show)
+        expect(assigns(:user).reload.activated?).to eq(false)
       end
 
-      it "flashes success" do
+      it "redirects to home page" do
         post users_path, user: valid_attributes
-        follow_redirect!
-        #expect(response.body).to include(flash[:success])
-        assert flash[:success]
-      end
-
-      it "logs in newly created user" do
-        post users_path, user: valid_attributes
-        assert is_logged_in?
+        expect(response).to redirect_to(root_path)
       end
 
     end
