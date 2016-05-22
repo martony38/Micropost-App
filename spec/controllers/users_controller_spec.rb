@@ -27,6 +27,29 @@ RSpec.describe UsersController, type: :controller do
 
   end
 
+  describe "GET #show" do
+
+    context "when user activated" do
+
+      it "show user" do
+        get :show, id:user
+        expect(response).to have_http_status(:success)
+      end
+
+    end
+
+    context "when user not activated" do
+
+      it "show user" do
+        user = create(:unactivated_user)
+        get :show, id:user
+        expect(response).to redirect_to(root_path)
+      end
+
+    end
+
+  end
+
   describe "GET #edit" do
 
   	context "when not logged in" do

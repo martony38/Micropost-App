@@ -110,6 +110,19 @@ RSpec.describe "Edit", type: :request do
 
 			end
 
+			context "with expired token" do
+
+				it "redirects to new_password_reset_path" do
+					user.create_reset_digest
+					user.update_attribute(:reset_sent_at, 3.hours.ago)
+					get edit_password_reset_path(user.reset_token, email: user.email)
+					expect(response).to redirect_to(new_password_reset_path)
+					follow_redirect!
+					expect(response.body).to match("expired")
+				end
+
+			end
+
 			context "with valid info" do
 
 				it "render password_resets/edit" do

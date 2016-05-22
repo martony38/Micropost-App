@@ -38,6 +38,14 @@ RSpec.describe "Index", type: :request do
         end
       end
 
+      it "does not display unactivated users" do
+        unactivated_user = create(:unactivated_user)
+        user = create(:random_user)
+        log_in_as(user)
+        get users_path
+        assert_select "a[href=?]", user_path(unactivated_user), :text => unactivated_user.name, count: 0
+      end
+
       context "as non-admin" do
 
         it "index page does not display delete links" do
