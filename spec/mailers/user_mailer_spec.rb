@@ -24,16 +24,23 @@ RSpec.describe UserMailer, type: :mailer do
   end
 
   describe "password_reset" do
-    let(:mail) { UserMailer.password_reset }
+
+    let(:user) { create(:random_user) }
+    let(:mail) { UserMailer.password_reset(user) }
+
+    before do
+      user.reset_token = User.new_token
+    end
 
     it "renders the headers" do
       expect(mail.subject).to eq("Password reset")
-      expect(mail.to).to eq(["to@example.org"])
+      expect(mail.to).to eq([user.email])
       expect(mail.from).to eq(["from@example.com"])
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to match("Hi")
+      expect(mail.body.encoded).to match(user.reset_token)
+      expect(mail.body.encoded).to match(CGI::escape(user.email))
     end
   end
 
