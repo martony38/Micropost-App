@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.6'
 
+# Add bootstrap CSS
 gem 'bootstrap-sass'
 
 # https://github.com/balexand/email_validator.git
@@ -36,9 +36,14 @@ gem 'bcrypt', '~> 3.1.7'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Allow pagination and corresponding styles
 gem 'will_paginate'
-
 gem 'bootstrap-will_paginate'
+
+# Add image uploader and image resizing
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'fog'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -47,6 +52,7 @@ group :development, :test do
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  # Create database entries
   gem 'faker'
 end
 

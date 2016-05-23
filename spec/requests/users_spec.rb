@@ -204,6 +204,41 @@ RSpec.describe "Show", type: :request do
     it "displays the user page" do
       get user_path(user)
       expect(response).to render_template('users/show')
+      assert_select 'title', "#{user.name} | Lolo Cool Website"
+      assert_select "h1", text: user.name
+      assert_select "h1>img.gravatar"
+    end
+
+    it "displays the user's microposts" do
+      user = create(:user_with_microposts)
+      get user_path(user)
+      expect(response.body).to match(user.microposts.count.to_s)
+      assert_select "div.pagination"
+      user.microposts.paginate(page: 1).each do |micropost|
+        expect(response.body).to match(micropost.content)
+      end
+    end
+
+    context "when logged in" do
+
+      it "displays the delete links" do
+        user = create(:user_with_microposts)
+        log_in_as(user)
+        get user_path(user)
+        assert_select 'a', text: "delete", count: 30
+      end
+
+    end
+
+    context "when logged in as different user" do
+
+      it "does not display the delete links" do
+        another_user = create(:user_with_microposts)
+        log_in_as(user)
+        get user_path(another_user)
+        assert_select 'a', text: "delete", count: 0
+      end
+
     end
 
   end

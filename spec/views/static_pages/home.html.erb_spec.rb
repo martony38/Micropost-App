@@ -36,6 +36,8 @@ RSpec.describe "static_pages/home.html.erb", type: :view do
 
 	it "does not display the link to the login page if user logged in" do
 		session[:user_id] = user.id
+		@micropost = user.microposts.build(content: "Lorem ipsum")
+		@feed_items = []
 		render template: "static_pages/home.html.erb", layout: "layouts/application.html.erb"
 		assert_select "a[href=?]", login_path, count: 0
 	end

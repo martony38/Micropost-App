@@ -59,10 +59,10 @@ RSpec.describe User, type: :model do
 		expect(user.email).to eq(mixed_case_email.downcase)
 	end
 
-  it "email and email_confirmation should match" do
-    user.email_confirmation = "a" + user.email
-    expect(user.valid?).to eq(false)
-  end
+  	it "email and email_confirmation should match" do
+    	user.email_confirmation = "a" + user.email
+    	expect(user.valid?).to eq(false)
+  	end
 
 	it "password should be present (nonblank)" do
 		user.password = user.password_confirmation = " " * 6
@@ -74,8 +74,18 @@ RSpec.describe User, type: :model do
 		expect(user.valid?).to eq(false)
 	end
 
-  it "authenticated? should return false for a user with nil digest" do
-    expect(user.authenticated?(:remember, '')).to eq(false)
-  end
+  	it "authenticated? should return false for a user with nil digest" do
+    	expect(user.authenticated?(:remember, '')).to eq(false)
+  	end
+
+  	context "when user destroyed" do
+
+  		it "destroys associated microposts" do
+  			user.save
+  			user.microposts.create!(content: "Lorem ipsum")
+  			expect { user.destroy }.to change{Micropost.count}.by(-1)
+  		end
+
+  	end
 
 end

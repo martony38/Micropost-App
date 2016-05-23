@@ -15,6 +15,17 @@ RSpec.describe "Home", type: :request do
 		  expect(response).to render_template('static_pages/home')
 	  end
 
+    context "when logged in" do
+
+      it "displays the user's feed with the delete links" do
+        log_in_as(user = create(:user_with_microposts))
+        get root_path
+        assert_select "div.pagination"
+        assert_select "a", text: "delete"
+      end
+
+    end
+
   end
 
 end
