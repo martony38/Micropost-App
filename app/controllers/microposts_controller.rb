@@ -8,8 +8,8 @@ class MicropostsController < ApplicationController
 			flash[:success] = "Micropost successfully created!"
 			redirect_to root_path
 		else
-			@feed_items = []
-			#@feed_items = current_user.feed.paginate(page: params[:page]) if logged_in?
+			#@feed_items = []
+			@feed_items = current_user.feed.paginate(page: params[:page]) if logged_in?
 			render "static_pages/home"
 			#redirect_to root_path
 		end

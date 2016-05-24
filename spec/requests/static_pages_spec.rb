@@ -24,6 +24,18 @@ RSpec.describe "Home", type: :request do
         assert_select "a", text: "delete"
       end
 
+      it "displays the correct total number of microposts from user" do
+        log_in_as(user = create(:user_with_microposts))
+        get root_path
+        expect(response.body).to match("#{user.microposts.count} microposts")
+        log_in_as(user = create(:user_with_microposts, microposts_count: 1))
+        get root_path
+        expect(response.body).to match("1 micropost")
+        log_in_as(user = create(:random_user))
+        get root_path
+        expect(response.body).to match("0 microposts")
+      end
+
     end
 
   end

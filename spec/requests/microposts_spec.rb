@@ -16,12 +16,18 @@ RSpec.describe "Index", type: :request do
 					expect{post microposts_path, micropost: { content: "" }}.to_not 	change{Micropost.count}
 				end
 
+				it "displays errors" do
+					post microposts_path, micropost: { content: "" }
+					assert_select "div#error_explanation"
+				end
+
 			end
 
 			context "with valid content" do
 
 				it "creates micropost" do
-					expect{post microposts_path, micropost: { content: "valid content" }}	.to change{Micropost.count}.by(1)
+					picture = fixture_file_upload("spec/fixtures/rails.png", "image/png")
+					expect{post microposts_path, micropost: { content: "valid content", picture: picture }}	.to change{Micropost.count}.by(1)
 				end
 
 				it "redirects to root" do
