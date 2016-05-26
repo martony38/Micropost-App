@@ -5,6 +5,32 @@ RSpec.describe UsersController, type: :controller do
   let(:user) { create :donald }
   let(:wrong_user) { create :mickey }
 
+  describe "GET #following" do
+
+    context "when not logged in" do
+
+      it "redirects to login" do
+        get :following, id: user
+        expect(response).to redirect_to(login_path)
+      end
+
+    end
+
+  end
+
+  describe "GET #followers" do
+
+    context "when not logged in" do
+
+      it "redirects to login" do
+        get :followers, id: user
+        expect(response).to redirect_to(login_path)
+      end
+
+    end
+
+  end
+
   describe "GET #index" do
 
   	context "when not logged in" do

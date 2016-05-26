@@ -6,6 +6,60 @@ def is_logged_in?
 end
 =end
 
+RSpec.describe "Following", type: :request do
+
+  describe "GET /user/id/following" do
+
+    context "when user follows another user" do
+
+      it "displays following list" do
+        2.times do
+          user = create(:random_user)
+        end
+        log_in_as(user = create(:random_user))
+        relationship1 = create(:relationship, follower_id: User.last.id, followed_id: User.last.id - 1)
+        relationship2 = create(:relationship, follower_id: User.last.id, followed_id: User.last.id - 2)
+        get following_user_path(user)
+        expect(user.following.empty?).to eq(false)
+        expect(response.body).to match(user.following.count.to_s)
+        user.following.each do |user|
+          assert_select "a[href=?]", user_path(user)
+        end
+      end
+
+    end
+
+  end
+
+end
+
+RSpec.describe "Followers", type: :request do
+
+  describe "GET /user/id/followers" do
+
+    context "when user is being followed by another user" do
+
+      it "displays followers list" do
+        2.times do
+          user = create(:random_user)
+        end
+        log_in_as(user = create(:random_user))
+        relationship1 = create(:relationship, followed_id: User.last.id, follower_id: User.last.id - 1)
+        relationship2 = create(:relationship, followed_id: User.last.id, follower_id: User.last.id - 2)
+        get followers_user_path(user)
+        expect(user.followers.empty?).to eq(false)
+        expect(response.body).to match(user.followers.count.to_s)
+        user.followers.each do |user|
+          assert_select "a[href=?]", user_path(user)
+        end
+      end
+
+    end
+
+  end
+
+end
+
 RSpec.describe "Index", type: :request do
 
   describe "GET /users" do

@@ -88,4 +88,39 @@ RSpec.describe User, type: :model do
 
   	end
 
+  	it "can follow and unfollow a user" do
+  		user1 = create(:random_user)
+  		user2 = create(:random_user)
+  		expect(user1.following?(user2)).to eq(false)
+  		user1.follow(user2)
+  		expect(user1.following?(user2)).to eq(true)
+  		expect(user2.followers.include?(user1)).to eq(true)
+  		user1.unfollow(user2)
+  		expect(user1.following?(user2)).to eq(false)
+  	end
+
+  	it "feed includes the microposts from followed users" do
+  		user1 = create(:user_with_microposts, microposts_count: 5)
+  		user2 = create(:user_with_microposts, microposts_count: 5)
+  		user1.follow(user2)
+  		user2.microposts.each do |micropost|
+  			expect(user1.feed.include?(micropost)).to eq(true)
+  		end
+  	end
+
+  	it "feed includes the microposts from self" do
+  		user1 = create(:user_with_microposts, microposts_count: 5)
+  		user1.microposts.each do |micropost|
+  			expect(user1.feed.include?(micropost)).to eq(true)
+  		end
+  	end
+
+  	it "feed does not include microposts from users not followed" do
+  		user1 = create(:user_with_microposts, microposts_count: 5)
+  		user2 = create(:user_with_microposts, microposts_count: 5)
+  		user2.microposts.each do |micropost|
+  			expect(user1.feed.include?(micropost)).to eq(false)
+  		end
+  	end
+
 end
