@@ -22,6 +22,11 @@ RSpec.describe "Home", type: :request do
         get root_path
         assert_select "div.pagination"
         assert_select "a", text: "delete"
+        post microposts_path, micropost: { content: " < > & " }
+        follow_redirect!
+        user.feed.paginate(page: 1).each do |micropost|
+          expect(response.body).to match(CGI.escapeHTML(micropost.content))
+        end
       end
 
       it "displays the correct total number of microposts from user" do
