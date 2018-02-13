@@ -1,5 +1,5 @@
 Hi <%= @user.name %>,
 
-Welcome to the Lolo Cool Website! Copy and paste in your web browser the link below to activate your account:
+Welcome to Micropost App! Copy and paste in your web browser the link below to activate your account:
 
 <%= edit_account_activation_url(@user.activation_token, email: @user.email) %>
