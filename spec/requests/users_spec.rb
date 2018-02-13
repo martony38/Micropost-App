@@ -258,7 +258,7 @@ RSpec.describe "Show", type: :request do
     it "displays the user page" do
       get user_path(user)
       expect(response).to render_template('users/show')
-      assert_select 'title', "#{user.name} | Lolo Cool Website"
+      assert_select 'title', "#{user.name} | Micropost App"
       assert_select "h1", text: user.name
       assert_select "h1>img.gravatar"
     end

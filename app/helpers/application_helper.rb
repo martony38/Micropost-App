@@ -10,7 +10,7 @@ module ApplicationHelper
 	end
 
 	def website_title
-		"Lolo Cool Website"
+		"Micropost App"
 	end
 
 end

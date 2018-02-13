@@ -6,7 +6,7 @@ RSpec.describe "static_pages/home.html.erb", type: :view do
 
     it "displays the correct page title" do
     	render template: "static_pages/home.html.erb", layout: "layouts/application.html.erb"
-      	assert_select "title", "Lolo Cool Website"
+      	assert_select "title", "Micropost App"
     end
 
     it "displays the links to the home page" do

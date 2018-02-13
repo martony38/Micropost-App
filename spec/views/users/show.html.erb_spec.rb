@@ -10,7 +10,7 @@ RSpec.describe "users/show.html.erb", type: :view do
 	let(:user) { create :donald }
     it "displays the correct page title" do
     	render_user_page(user)
-      	assert_select "title", "#{user.name} | Lolo Cool Website"
+      	assert_select "title", "#{user.name} | Micropost App"
     end
     it "displays the links to the home page" do
     	render_user_page(user)
