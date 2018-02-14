@@ -3,7 +3,9 @@ source 'https://rubygems.org'
 ruby '2.2.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.6'
+gem 'rails', '~> 4.2.7.1'
+
+gem 'ffi', '1.9.18'
 
 # Add bootstrap CSS
 gem 'bootstrap-sass'
