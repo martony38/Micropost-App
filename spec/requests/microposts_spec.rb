@@ -26,7 +26,7 @@ RSpec.describe "Index", type: :request do
 			context "with valid content" do
 
 				it "creates micropost" do
-					picture = fixture_file_upload("spec/fixtures/rails.png", "image/png")
+					picture = fixture_file_upload("rails.png", "image/png")
 					expect{post microposts_path, micropost: { content: "valid content", picture: picture }}	.to change{Micropost.count}.by(1)
 				end
 
