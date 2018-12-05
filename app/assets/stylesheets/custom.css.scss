@@ -6,9 +6,9 @@
 $gray-medium-light: #eaeaea;
 
 @mixin box_sizing {
-  -moz-box-sizing:    border-box;
+  -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  box-sizing:         border-box;
+  box-sizing: border-box;
 }
 
 /* miscellaneous */
@@ -44,7 +44,12 @@ textarea {
 
 /* typography */
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   line-height: 1;
 }
 
@@ -68,7 +73,6 @@ p {
   font-size: 1.1em;
   line-height: 1.7em;
 }
-
 
 /* header */
 
@@ -110,6 +114,39 @@ footer {
       float: left;
       margin-left: 15px;
     }
+  }
+}
+
+.logo-wrapper {
+  position: relative;
+}
+
+.styled-logo-1 {
+  width: 25px;
+  height: 100%;
+  bottom: 1px;
+  position: relative;
+}
+
+.styled-logo-2 {
+  width: 25px;
+  position: absolute;
+  left: 0px;
+  bottom: -1px;
+
+  animation-iteration-count: infinite;
+  animation-duration: 0.5s;
+  animation-name: flashing;
+  animation-direction: alternate;
+}
+
+@keyframes flashing {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }
 
@@ -190,7 +227,10 @@ aside {
 
 /* forms */
 
-input, textarea, select, .uneditable-input {
+input,
+textarea,
+select,
+.uneditable-input {
   border: 1px solid #bbb;
   width: 100%;
   margin-bottom: 15px;
