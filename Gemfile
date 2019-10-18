@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.2.4'
+ruby '2.6.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 4.2.11'
@@ -8,7 +8,7 @@ gem 'rails', '~> 4.2.11'
 gem 'ffi', '~> 1.9.24'
 
 # Add bootstrap CSS
-gem 'bootstrap-sass'
+gem "bootstrap-sass", ">= 3.4.1"
 
 # https://github.com/balexand/email_validator.git
 gem 'email_validator'
@@ -46,7 +46,7 @@ gem 'bootstrap-will_paginate'
 
 # Add image uploader and image resizing
 gem 'carrierwave'
-gem 'mini_magick'
+gem 'mini_magick', '>= 4.9.4'
 gem 'fog'
 
 group :development, :test do
